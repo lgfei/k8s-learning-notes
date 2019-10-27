@@ -418,8 +418,11 @@ kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
 ***注: 和master节点的区别在于 --control-plane ***
 kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
     --discovery-token-ca-cert-hash sha256:11902c4de08e89cd7d2da1d7543e086720061ce48acf5ce48fec1f825c8aef44
-9. 查看集群状态
-`kubectl get cs`
+9. 查看集群状态  
+```
+kubectl version
+kubectl get cs
+```
 <pre>
 NAME                 STATUS    MESSAGE             ERROR
 scheduler            Healthy   ok                  
@@ -438,11 +441,11 @@ node-01     NotReady    node     2d17h   v1.15.3
 </pre>
 10. 部署fannel或者calico 
 从上一步看到节点的状态是NotReady，是因为还没部署网络插件
-***注: 部署任何组件，一定不要直接用网上下载的yaml文件部署 ***
-***类似于 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml ***
-*** 一定要下载下来仔细对比，修改相应配置项 ***
+***注: 部署任何组件，一定不要直接用网上下载的yaml文件部署 ***  
+***类似于 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml ***  
+*** 一定要下载下来仔细对比，修改相应配置项 ***  
 kube-flannel.yml文件内容如下：
-```
+```yaml
 ---
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
