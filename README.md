@@ -1,2 +1,2 @@
-# linux-learning-notes
-lgfei眼中的k8s
+# k8s-learning-notes
+k8s学习笔记
