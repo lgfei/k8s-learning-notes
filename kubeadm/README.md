@@ -43,6 +43,7 @@ cat >>/etc/hosts<<EOF
 192.168.1.103 master-03
 192.168.1.104 node-01
 192.168.1.105 node-02
+192.168.1.106 node-03
 EOF
 ```
 5. 在master-01上创建ssh秘钥，并分发给其他节点，方便从master上复制文件到其他节点
@@ -104,14 +105,14 @@ vrrp_instance VI_1 {
     state MASTER
     interface eth0
     virtual_router_id 51
-    <font color="red">priority 100</font>
+    priority 100
     advert_int 1
     authentication {
         auth_type PASS
         auth_pass 1111
     }
     virtual_ipaddress {
-        <font color="red">192.168.1.200</font>
+        192.168.1.200
     }
     track_script {
         chk_haproxy
@@ -161,13 +162,13 @@ listen stats :1234
     stats     admin if TRUE
 
 listen kube-api-lb
-    <font color="red">bind      0.0.0.0:8443</font>
+    bind      0.0.0.0:8443
     balance   roundrobin
     mode      tcp
     option    tcplog
-    <font color="red">server    master-01 192.168.1.101:6443 weight 1 maxconn 10000 check inter 10s rise 2 fall 3</font>
-    <font color="red">server    master-02 192.168.1.102:6443 weight 1 maxconn 10000 check inter 10s rise 2 fall 3</font>
-    <font color="red">server    master-03 192.168.1.103:6443 weight 1 maxconn 10000 check inter 10s rise 2 fall 3</font>
+    server    master-01 192.168.1.101:6443 weight 1 maxconn 10000 check inter 10s rise 2 fall 3
+    server    master-02 192.168.1.102:6443 weight 1 maxconn 10000 check inter 10s rise 2 fall 3
+    server    master-03 192.168.1.103:6443 weight 1 maxconn 10000 check inter 10s rise 2 fall 3
 ```
 4. 启动服务
 ```
@@ -189,7 +190,7 @@ yum -y install docker-ce-18.06.1.ce-3.el7
 ```
 2. 根据自己的情况修改/etc/docker/daemon.json
 没有这个文件则新建，也可以没有这个文件，则按默认配置启动docker
-```
+```json
 {
   "registry-mirrors": ["https://iljr3exx.mirror.aliyuncs.com"],
   "insecure-registries":["registry.topmall.com:5000","hub.wonhigh.cn"],
@@ -223,15 +224,15 @@ yum install -y kubelet-1.15.3 kubeadm-1.15.3 kubectl-1.15.3
 ```
 3. 编辑kubeadm初始化yaml文件kubeadm-init.yaml
 ***注: 红色字体部分根据实际情况修改***
-```
+```yaml
 apiVersion: kubeadm.k8s.io/v1beta1
 kind: InitConfiguration
 localAPIEndpoint:
-  advertiseAddress: <font color="red">192.168.1.101</font>
+  advertiseAddress: 192.168.1.101
   bindPort: 6443
 nodeRegistration:
   criSocket: /var/run/dockershim.sock
-  name: <font color="red">master-01</font>
+  name: master-01
   taints:
   - effect: NoSchedule
     key: node-role.kubernetes.io/master
@@ -246,18 +247,18 @@ bootstrapTokens:
 ---
 apiVersion: kubeadm.k8s.io/v1beta1
 kind: ClusterConfiguration
-kubernetesVersion: <font color="red">v1.15.3</font>
+kubernetesVersion: v1.15.3
 apiServer:
   extraArgs:
-    service-node-port-range: <font color="red">3000-39999</font>
+    service-node-port-range: 3000-39999
   CertSANs:
-  - <font color="red">192.168.1.101</font>
-  - <font color="red">192.168.1.102</font>
-  - <font color="red">192.168.1.103</font>
-  - <font color="red">master-01</font>
-  - <font color="red">master-02</font>
-  - <font color="red">master-03</font>
-controlPlaneEndpoint: <font color="red">192.168.1.200:8443</font>
+  - 192.168.1.101
+  - 192.168.1.102
+  - 192.168.1.103
+  - master-01
+  - master-02
+  - master-03
+controlPlaneEndpoint: 192.168.1.200:8443
 controllerManager: {}
 dns:
   type: CoreDNS
@@ -267,8 +268,8 @@ etcd:
 imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers
 networking:
   dnsDomain: cluster.local
-  serviceSubnet: <font color="red">100.96.0.0/12</font>
-  podSubnet: <font color="red">100.244.0.0/16</font>
+  serviceSubnet: 100.96.0.0/12
+  podSubnet: 100.244.0.0/16
   
 ---
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
@@ -347,11 +348,9 @@ Your Kubernetes control-plane has initialized successfully!
 
 To start using your cluster, you need to run the following as a regular user:
 
-<font color="red">
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
-</font>
 
 You should now deploy a pod network to the cluster.
 Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
@@ -360,18 +359,15 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 You can now join any number of control-plane nodes by copying certificate authorities 
 and service account keys on each node and then running the following as root:
 
-<font color="red">
   kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
     --discovery-token-ca-cert-hash sha256:11902c4de08e89cd7d2da1d7543e086720061ce48acf5ce48fec1f825c8aef44 \
     --control-plane
-</font>	
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-<font color="red">
 kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
     --discovery-token-ca-cert-hash sha256:11902c4de08e89cd7d2da1d7543e086720061ce48acf5ce48fec1f825c8aef44
-</font>
+<br>	
 </pre>
 - [init]：指定版本进行初始化操作
 - [preflight] ：初始化前的检查和下载所需要的Docker镜像文件
@@ -415,7 +411,7 @@ kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
   --control-plane
 ```
 8. 添加node节点(node-01,node-02,node-03)
-***注: 和master节点的区别在于 --control-plane ***
+***注: 和master节点的区别在于 --control-plane***
 kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
     --discovery-token-ca-cert-hash sha256:11902c4de08e89cd7d2da1d7543e086720061ce48acf5ce48fec1f825c8aef44
 9. 查看集群状态  
@@ -439,11 +435,11 @@ node-01     NotReady    node     2d5h    v1.15.3
 node-01     NotReady    node     2d17h   v1.15.3
 node-01     NotReady    node     2d17h   v1.15.3
 </pre>
-10. 部署fannel或者calico 
-从上一步看到节点的状态是NotReady，是因为还没部署网络插件
-***注: 部署任何组件，一定不要直接用网上下载的yaml文件部署 ***  
-***类似于 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml ***  
-*** 一定要下载下来仔细对比，修改相应配置项 ***  
+10. 部署fannel或者calico<br>
+从上一步看到节点的状态是NotReady，是因为还没部署网络插件<br>
+***注: 部署任何组件，一定不要直接用网上下载的yaml文件部署***<br>
+***类似于 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml***<br>  
+***一定要下载下来仔细对比，修改相应配置项***<br>  
 kube-flannel.yml文件内容如下：
 ```yaml
 ---
@@ -573,7 +569,7 @@ data:
     }
   net-conf.json: |
     {
-      "Network": "100.244.0.0/16", <font color="red"># 和kubeadm-init.yml中设置的podSubnet一致</font>
+      "Network": "100.244.0.0/16", # 和kubeadm-init.yml中设置的podSubnet一致
       "Backend": {
         "Type": "vxlan"
       }
