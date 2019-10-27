@@ -423,7 +423,11 @@ node-01     NotReady    node     2d17h   v1.15.3
 node-01     NotReady    node     2d17h   v1.15.3
 </pre>
 10. 部署fannel或者calico<br>
-***注: 部署任何组件，一定不要直接用网上下载的yaml文件部署，类似于 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml，一定要下载下来仔细对比，修改相应配置项***<br>  
+***注: 部署任何组件，一定不要直接用网上下载的yaml文件部署，类似于*** 
+```
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
+***一定要下载下来仔细对比，修改相应配置项***<br>  
 从上一步看到节点的状态是NotReady，是因为还没部署网络插件<br>
 kube-flannel.yml文件内容：[kube-flannel.yml](https://github.com/lgfei/k8s-learning-notes/blob/master/kubeadm/kube-flannel.yml)<br>
 需要修改的地方
