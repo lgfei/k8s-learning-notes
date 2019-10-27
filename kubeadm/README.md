@@ -265,7 +265,7 @@ kubeadm config images pull --config kubeadm-init.yaml
 ```
 kubeadm init --config kubeadm-init.yaml
 ```
-初始化成功会输出如下日志信息，注意保存，红色字体部分很重要
+初始化成功会输出如下日志信息，注意保存
 <pre>
 [init] Using Kubernetes version: v1.15.3
 [preflight] Running pre-flight checks
@@ -395,7 +395,7 @@ kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
 kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
     --discovery-token-ca-cert-hash sha256:11902c4de08e89cd7d2da1d7543e086720061ce48acf5ce48fec1f825c8aef44
 ```
-将master节点的/etc/kubernetes/admin.conf复制到相同的目录执行
+将master节点的/etc/kubernetes/admin.conf复制到相同的目录后，执行
 ```
 mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
