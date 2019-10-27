@@ -79,8 +79,7 @@ chmod 755 /etc/sysconfig/modules/ipvs.modules
 bash /etc/sysconfig/modules/ipvs.modules
 lsmod | grep -e ip_vs -e nf_conntrack_ipv4
 ```
-
-## 安装ipvsadm
+8. 安装ipvsadm
 ```
 yum install -y ipvsadm
 ipvsadm-save -n > /etc/sysconfig/ipvsadm
