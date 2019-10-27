@@ -1,0 +1,52 @@
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: 192.168.1.101
+  bindPort: 6443
+nodeRegistration:
+  criSocket: /var/run/dockershim.sock
+  name: master-01
+  taints:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+bootstrapTokens:
+- groups:
+  - system:bootstrappers:kubeadm:default-node-token  
+  ttl: 72h0m0s
+  usages:
+  - signing
+  - authentication
+
+---
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: ClusterConfiguration
+kubernetesVersion: v1.15.3
+apiServer:
+  extraArgs:
+    service-node-port-range: 3000-39999
+  CertSANs:
+  - 192.168.1.101
+  - 192.168.1.102
+  - 192.168.1.103
+  - master-01
+  - master-02
+  - master-03
+controlPlaneEndpoint: 192.168.1.200:8443
+controllerManager: {}
+dns:
+  type: CoreDNS
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers
+networking:
+  dnsDomain: cluster.local
+  serviceSubnet: 100.96.0.0/12
+  podSubnet: 100.244.0.0/16
+  
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+featureGates:
+  SupportIPVSProxyMode: true
+mode: ipvs
