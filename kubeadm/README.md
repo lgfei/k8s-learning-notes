@@ -83,8 +83,10 @@ lsmod | grep -e ip_vs -e nf_conntrack_ipv4
 ## 部署keepalived和haproxy
 ***注: 只要在3台master节点部署***
 1. 安装keepalived和haproxy
-`yum install -y keepalived haproxy`
-2. 修改keepalived配置/etc/keepalived/keepalived.conf
+```
+yum install -y keepalived haproxy
+```
+2. 修改keepalived配置/etc/keepalived/keepalived.conf<br>
 ***注: master-01的priority 100，master-02的priority 99 ，master-03的priority 98***
 ```
 global_defs {
@@ -222,13 +224,13 @@ EOF
 ```
 yum install -y kubelet-1.15.3 kubeadm-1.15.3 kubectl-1.15.3
 ```
-3. 编辑kubeadm初始化yaml文件kubeadm-init.yaml
+3. 编辑kubeadm初始化yaml文件kubeadm-init.yaml<br>
 ***注: 红色字体部分根据实际情况修改***
 ```yaml
 apiVersion: kubeadm.k8s.io/v1beta1
 kind: InitConfiguration
 localAPIEndpoint:
-  advertiseAddress: 192.168.1.101
+  advertiseAddress: ==192.168.1.101==
   bindPort: 6443
 nodeRegistration:
   criSocket: /var/run/dockershim.sock
@@ -410,10 +412,12 @@ kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
   --discovery-token-ca-cert-hash sha256:11902c4de08e89cd7d2da1d7543e086720061ce48acf5ce48fec1f825c8aef44 \
   --control-plane
 ```
-8. 添加node节点(node-01,node-02,node-03)
+8. 添加node节点(node-01,node-02,node-03)<br>
 ***注: 和master节点的区别在于 --control-plane***
+```
 kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
     --discovery-token-ca-cert-hash sha256:11902c4de08e89cd7d2da1d7543e086720061ce48acf5ce48fec1f825c8aef44
+```
 9. 查看集群状态  
 ```
 kubectl version
@@ -437,9 +441,7 @@ node-01     NotReady    node     2d17h   v1.15.3
 </pre>
 10. 部署fannel或者calico<br>
 从上一步看到节点的状态是NotReady，是因为还没部署网络插件<br>
-***注: 部署任何组件，一定不要直接用网上下载的yaml文件部署***<br>
-***类似于 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml***<br>  
-***一定要下载下来仔细对比，修改相应配置项***<br>  
+***注: 部署任何组件，一定不要直接用网上下载的yaml文件部署，类似于 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml，一定要下载下来仔细对比，修改相应配置项***<br>  
 kube-flannel.yml文件内容如下：
 ```yaml
 ---
