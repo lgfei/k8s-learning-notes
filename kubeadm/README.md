@@ -1,12 +1,14 @@
 # kubeadm安装高可用k8s集群过程
-## 机器准备  
+## 机器准备 
+<pre> 
 系统内核3.10以上，建议至少2核2G  
 如果只是试验，可以只用1台mater,1台node。生产环境一般需要多master（至少3台），实现高可用   
 此次我试验的架构如下：  
 Kubernetes: v1.13.2  
 Docker-ce: 18.06  
 Keepalived保证apiserever服务器的IP高可用  
-Haproxy实现apiserver的负载均衡  
+Haproxy实现apiserver的负载均衡 
+</pre> 
 节点名称|角色|IP|安装的软件
 --|:--:|--:|--:
 负载VIP|VIP|192.168.1.200|不是一台真实的机器，是一个与master同网段未被占用的虚拟IP
@@ -15,7 +17,7 @@ master-02|master|192.168.1.102|kubeadm、kubelet、kubectl、etcd、docker、hap
 master-03|master|192.168.1.103|kubeadm、kubelet、kubectl、etcd、docker、haproxy、keepalived、ipvsadm
 node-01|node|192.168.1.104|kubeadm、kubelet、kubectl、docker、ipvsadm
 node-02|node|192.168.1.105|kubeadm、kubelet、kubectl、docker、ipvsadm
----
+
 ## 机器初始化配置
 **注: 没有特别说明的，表示每台机器都要执行**
 1. 关闭防火墙
