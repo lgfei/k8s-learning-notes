@@ -80,6 +80,14 @@ bash /etc/sysconfig/modules/ipvs.modules
 lsmod | grep -e ip_vs -e nf_conntrack_ipv4
 ```
 
+## 安装ipvsadm
+```
+yum install -y ipvsadm
+ipvsadm-save -n > /etc/sysconfig/ipvsadm
+systemctl enble ipvsadm
+systemctl start ipvsadm
+```
+
 ## 部署keepalived和haproxy
 ***注: 只要在3台master节点部署***
 1. 安装keepalived和haproxy
@@ -388,6 +396,12 @@ kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
 kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
     --discovery-token-ca-cert-hash sha256:11902c4de08e89cd7d2da1d7543e086720061ce48acf5ce48fec1f825c8aef44
 ```
+将master节点的/etc/kubernetes/admin.conf复制到相同的目录执行
+```
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
+```
 9. 查看集群状态  
 ```
 kubectl version
@@ -445,4 +459,40 @@ kubectl get configmaps
 kubectl describe pod xxx
 kubectl delete pod xxx
 ...
+```
+## 重新初始化
+***除了第一步，其他步骤可视情况而定，重新初始化之后的步骤请参考上面安装步骤***
+1. 重新初始化k8s
+```
+kubeadm reset
+iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
+ipvsadm --clear
+```
+2. 卸载docker
+```
+systemctl stop docker
+yum erase docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-selinux \
+                  docker-engine-selinux \
+                  docker-engine \
+                  docker-ce
+
+```
+3. 卸载虚拟网卡
+```
+ifconfig
+ifconfig cni0 down
+ip link delete cni0
+ifconfig flannel.1 down 
+ip link delete flannel.1
+ifconfig tunl0 down 
+ip link delete tunl0
+rm -rf /var/lib/cni/
+rm -f /etc/cni/net.d/*
 ```
