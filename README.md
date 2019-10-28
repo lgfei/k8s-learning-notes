@@ -17,9 +17,9 @@
 2. k8s最重要的概念是pod，Pod是k8s项目的原子调度单位，一个pod可以包含一个或多个容器应用（通常只放一个）。所以你可以将一个pod看成我们传统的一台虚拟机。
 ### k8s的架构
 1. 全局架构<br>
- ![k8s-cluster](https://github.com/lgfei/k8s-learning-notes/blob/master/images/k8s_cluster.png)
+  ![k8s-cluster](https://github.com/lgfei/k8s-learning-notes/blob/master/images/k8s_cluster.png)
 2. API对象架构<br>
- ![k8s-pod](https://github.com/lgfei/k8s-learning-notes/blob/master/images/k8s_pod.png)
+  ![k8s-pod](https://github.com/lgfei/k8s-learning-notes/blob/master/images/k8s_pod.png)
 ### k8s的网络原理
 ### k8s的日志采集方案
 ### k8s监控方案Prometheus
