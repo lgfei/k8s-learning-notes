@@ -17,8 +17,8 @@
 ### k8s的架构
 1. 全局架构<br>
 - ApiServer: k8s访问入口，所有通过kubectl执行的命令都是调用ApiServer实现的
-- Scheduler: 调度室，决定一个Pod应该运行在那个Node。（Pod运行的节点一般通过node的label指定）
-- Controller Manager: 总控室，监控集群状态，管理集群资源。例如：例如某一个应用设置的副本是2，其中一个意外停止，则Controller Manager负责重新创建一个pod，保证应用副本个数是2。
+- Scheduler: 调度室，决定一个Pod应该运行在哪个Node。（Pod运行的节点一般通过Node的label指定）
+- Controller Manager: 总控室，监控集群状态，管理集群资源。例如：例如某一个应用设置的副本是2，其中一个意外停止，则Controller Manager负责重新创建一个Pod，保证应用副本个数是2。
 - Etcd: key-value的数据库，负责持久化集群中各资源对象的信息
 - kubelet: 主要负责和Docker交互
 - kube-proxy: 负责处理外部请求应该访问到那个pod，nginx的反向代理<br>
