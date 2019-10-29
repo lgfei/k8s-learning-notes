@@ -22,7 +22,7 @@
 - Etcd: key-value的数据库，负责持久化集群中各资源对象的信息
 - kubelet: 主要负责和Docker交互
 - kube-proxy: 负责处理外部请求应该访问到那个pod，nginx的反向代理<br>
-![k8s-cluster](https://github.com/lgfei/k8s-learning-notes/blob/master/images/k8s-cluster.png)
+![k8s-cluster](https://github.com/lgfei/k8s-learning-notes/raw/master/images/k8s-cluster.png)
 2. 集群对象关系<br>
 - Pod: 一个或多个紧密协作的容器应用组成的逻辑对象，每个Pod会分配一个虚拟的PodIP(主机模式用的是主机IP)，一个Pod内的容器共享Pod的IP和网络配置，用于同外界通信。
 - Replica Set: Pod的子类，简称RC。一个RC可以管理多个Pod。
@@ -35,12 +35,12 @@
 - Job: 一次性任务
 - CronJob: 定时任务
 - Horizontal PodAutoscaler: 水平自动伸缩控制器<br>
-![k8s-pod](https://github.com/lgfei/k8s-learning-notes/blob/master/images/k8s-pod.png)
+![k8s-pod](https://github.com/lgfei/k8s-learning-notes/raw/master/images/k8s-pod.png)
 ### k8s的网络原理
 k8s网络实则容器和容器的通信<br>
 1. docker容器怎么和主机通信
 宿主机安装完docker后，创建一个docker0网桥，执行ifconfig会看到有如下信息<br>
-***注：其中192.168.5.1可以通过/etc/docker/daemon.json中bi配置项自行指定***
+***注：其中192.168.5.1可以通过/etc/docker/daemon.json中bip配置项自行指定***
 <pre>
 docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         inet 192.168.5.1  netmask 255.255.255.0  broadcast 192.168.5.255
