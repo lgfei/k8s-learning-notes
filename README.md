@@ -80,7 +80,8 @@ flannel.1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
 3. 集群外访问集群内服务的过程<br>
 Browser->Nginx->Service->Pod<br>
 用户请求经过Nginx分发，根据Service的端口映射，找到对应的ClusterIP，在通过Service找到其关联的Pods，再通过Ingress分发给具体的Pod
-### k8s的日志采集方案
-
-### k8s监控方案Prometheus
+### k8s日志采集方案
+1. EFK
+### k8s监控方案
+2. Prometheus
 
