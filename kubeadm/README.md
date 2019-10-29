@@ -422,7 +422,7 @@ node-01     NotReady    node     2d5h    v1.15.3
 node-01     NotReady    node     2d17h   v1.15.3
 node-01     NotReady    node     2d17h   v1.15.3
 </pre>
-10. 部署fannel或者calico<br>
+10. 部署flannel或者calico<br>
 ***注: 部署任何组件，一定不要直接用网上下载的yaml文件部署，类似于*** 
 ```
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
