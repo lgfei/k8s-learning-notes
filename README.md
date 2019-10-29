@@ -63,6 +63,7 @@ vetha0087a6: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 </pre>
 在docker0网桥上有一个Veth Pair的虚拟网卡设备，正是通过这个虚拟设备容器可以和docker0通信，然后docker0则可以和主机直接通信<br>
 至于docker0怎么和主机通信，我想应该和iptables技术有关<br>
+<br>
 2. A主机的容器怎么和B主机的容器通信
 两个主机网络是连通的，但是两台主机上的docker0是不互通的，所以我们要通过软件的方式为两台主机构建一个虚拟网络Overlay Network。<br>
 有了这个虚拟网络，两台主机上的容器通信就和单机类似了。<br>
