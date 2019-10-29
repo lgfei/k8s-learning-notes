@@ -11,7 +11,6 @@
 ### 什么是Docker
 1. Docker并不等于容器，Docker只是基于容器技术的一个产品。相比于其他容器产品，Docker最大的优势和创新是镜像(image)
 2. 通过docker run启动一个容器，是通过Linux Namespace、Linux Cgroups 和 rootfs 三种技术构建出来的进程的隔离环境，实际它只是运行在主机上的一个特殊的进程
-3. 
 ### 什么是k8s，为什么需要k8s
 1. 如果说Docker只是安装应用的另外一种形式，那么k8s就是管理容器应用的操作系统，为Docker化的应用提供路由网关、水平扩展、监控、备份、灾难恢复等一系列运维能力。认识了k8s才能真正走入容器化的世界
 2. k8s最重要的概念是pod，Pod是k8s项目的原子调度单位，一个pod可以包含一个或多个容器应用（通常只放一个）。所以你可以将一个pod看成我们传统的一台虚拟机。
@@ -22,8 +21,8 @@
 - Controller Manager: 总控室，监控集群状态，管理集群资源。例如：例如某一个应用设置的副本是2，其中一个意外停止，则Controller Manager负责重新创建一个pod，保证应用副本个数是2。
 - Etcd: key-value的数据库，负责持久化集群中各资源对象的信息
 - kubelet: 主要负责和Docker交互
-- kube-proxy: 负责处理外部请求应该访问到那个pod，nginx的反向代理
-![k8s-cluster](https://static001.geekbang.org/resource/image/8e/67/8ee9f2fa987eccb490cfaa91c6484f67.png)
+- kube-proxy: 负责处理外部请求应该访问到那个pod，nginx的反向代理<br>
+![k8s-cluster](https://github.com/lgfei/k8s-learning-notes/blob/master/images/k8s-cluster.png)
 2. 集群对象关系<br>
 - Pod: 一个或多个紧密协作的容器应用组成的逻辑对象，每个Pod会分配一个虚拟的PodIP(主机模式用的是主机IP)，一个Pod内的容器共享Pod的IP和网络配置，用于同外界通信。
 - Replica Set: Pod的子类，简称RC。一个RC可以管理多个Pod。
@@ -35,10 +34,10 @@
 - StatefulSet: 有状态的应用。一般用来部署中间件，例如：mysql
 - Job: 一次性任务
 - CronJob: 定时任务
-- Horizontal PodAutoscaler: 水平自动伸缩控制器
-![k8s-pod](https://static001.geekbang.org/resource/image/16/06/16c095d6efb8d8c226ad9b098689f306.png)
+- Horizontal PodAutoscaler: 水平自动伸缩控制器<br>
+![k8s-pod](https://github.com/lgfei/k8s-learning-notes/blob/master/images/k8s-pod.png)
 ### k8s的网络原理
-k8s网络
+k8s网络实则容器和容器的通信<br>
 1. docker容器怎么和主机通信
 宿主机安装完docker后，创建一个docker0网桥，执行ifconfig会看到有如下信息<br>
 ***注：其中192.168.5.1可以通过/etc/docker/daemon.json中bi配置项自行指定***
@@ -63,7 +62,7 @@ vetha0087a6: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 </pre>
 在docker0网桥上有一个Veth Pair的虚拟网卡设备，正是通过这个虚拟设备容器可以和docker0通信，然后docker0则可以和主机直接通信<br>
-至于docker0怎么和主机通信，我想应该和iptables技术有关
+至于docker0怎么和主机通信，我想应该和iptables技术有关<br>
 2. A主机的容器怎么和B主机的容器通信
 两个主机网络是连通的，但是两台主机上的docker0是不互通的，所以我们要通过软件的方式为两台主机构建一个虚拟网络Overlay Network。<br>
 有了这个虚拟网络，两台主机上的容器通信就和单机类似了。<br>
@@ -78,9 +77,9 @@ flannel.1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
         TX packets 23197  bytes 2119926 (2.0 MiB)
         TX errors 0  dropped 8 overruns 0  carrier 0  collisions 0
 </pre>
-3. 集群外访问集群内服务的过程
+3. 集群外访问集群内服务的过程<br>
 Browser->Nginx->Service->Pod<br>
-用户请求经过Nginx分发，根据Service的端口映射，找到对应的ClusterIP，在通过Service找到其关联的Pods，在通过Ingress分发给具体的Pod
+用户请求经过Nginx分发，根据Service的端口映射，找到对应的ClusterIP，在通过Service找到其关联的Pods，再通过Ingress分发给具体的Pod
 ### k8s的日志采集方案
 
 ### k8s监控方案Prometheus
