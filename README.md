@@ -13,11 +13,11 @@
 2. 通过docker run启动一个容器，是通过Linux Namespace、Linux Cgroups 和 rootfs 三种技术构建出来的进程的隔离环境，实际它只是运行在主机上的一个特殊的进程
 ### 什么是k8s，为什么需要k8s
 1. 如果说Docker只是安装应用的另外一种形式，那么k8s就是管理容器应用的操作系统，为Docker化的应用提供路由网关、水平扩展、监控、备份、灾难恢复等一系列运维能力。认识了k8s才能真正走入容器化的世界
-2. k8s最重要的概念是pod，Pod是k8s项目的原子调度单位，一个pod可以包含一个或多个容器应用（通常只放一个）。所以你可以将一个pod看成我们传统的一台虚拟机。
+2. k8s最重要的概念是Pod，Pod是k8s项目的原子调度单位，一个Pod可以包含一个或多个容器应用（通常只放一个）。所以你可以将一个pod看成我们传统的一台虚拟机。
 ### k8s的架构
 1. 全局架构<br>
 - ApiServer: k8s访问入口，所有通过kubectl执行的命令都是调用ApiServer实现的
-- Scheduler: 调度室，决定一个Pod应该运行在那个Node。（pod运行的节点一般通过node的label指定）
+- Scheduler: 调度室，决定一个Pod应该运行在那个Node。（Pod运行的节点一般通过node的label指定）
 - Controller Manager: 总控室，监控集群状态，管理集群资源。例如：例如某一个应用设置的副本是2，其中一个意外停止，则Controller Manager负责重新创建一个pod，保证应用副本个数是2。
 - Etcd: key-value的数据库，负责持久化集群中各资源对象的信息
 - kubelet: 主要负责和Docker交互
