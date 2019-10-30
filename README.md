@@ -27,8 +27,8 @@
 - Pod: 一个或多个紧密协作的容器应用组成的逻辑对象，每个Pod会分配一个虚拟的PodIP(主机模式用的是主机IP)，一个Pod内的容器共享Pod的IP和网络配置，用于同外界通信。
 - Replica Set: Pod的子类，简称RC。一个RC可以管理多个Pod。
 - Deployment: RC的子类，可以看成高版本的RC。提供了更丰富管理Pod的功能，例如：健康检查，滚动升级等。
+- Ingress: 需要结合Nginx和Service一起使用，其实可以看成给Nginx一个代理商，只要Ingress更新了，对应的Nginx就能访问Ingress绑定的Service了。
 - Service: 一组Pod的访问入口，并负责pod的负载均衡。一个Service会分配一个Cluster IP，并指定与主机和Pod的通信端口。
-- Ingress: 一般和Service一起使用，可以自定义配置Service的负载均衡。
 - ConfigMap/Secret: 都属于一种特殊的volume，负责存放一些环境相关的配置，方便多环境配置调整，只是Secret是加密的。
 - DaemonSet: 会在每个或指定范围内的Node都运行一个Pod，且新增节点后会自动部署。例如：网络插件flannel
 - StatefulSet: 有状态的应用。一般用来部署中间件，例如：mysql
@@ -37,7 +37,7 @@
 - Horizontal PodAutoscaler: 水平自动伸缩控制器<br>
 ![k8s-pod](https://github.com/lgfei/k8s-learning-notes/raw/master/images/k8s-pod.png)
 ### k8s的网络原理
-k8s网络实则容器和容器的通信<br>
+k8s网络实则是帮助Docker实现跨主机通信<br>
 1. docker容器怎么和主机通信
 宿主机安装完docker后，创建一个docker0网桥，执行ifconfig会看到有如下信息<br>
 ***注：其中192.168.5.1可以通过/etc/docker/daemon.json中bip配置项自行指定***
@@ -79,8 +79,12 @@ flannel.1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
         TX errors 0  dropped 8 overruns 0  carrier 0  collisions 0
 </pre>
 3. 集群外访问集群内服务的过程<br>
-Browser->Nginx->Service->Pod<br>
-用户请求经过Nginx分发，根据Service的端口映射，找到对应的ClusterIP，在通过Service找到其关联的Pods，再通过Ingress分发给具体的Pod
+- Host模式<br>
+Browser->Nginx->Pod
+- Service模式<br>
+Browser->Nginx->Service->Pod
+- Ingress模式<br>
+Browser->Nginx->Ingress->Service->Pod
 ### k8s日志采集方案
 1. EFK
 ### k8s监控方案
