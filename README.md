@@ -37,10 +37,9 @@
 - **Horizontal PodAutoscaler:** 水平自动伸缩控制器<br>
 ![k8s-pod](https://github.com/lgfei/k8s-learning-notes/raw/master/images/k8s-pod.png)
 ### k8s的网络原理
-k8s网络实则是帮助Docker实现跨主机通信<br>
-1. docker容器怎么和主机通信
-宿主机安装完docker后，创建一个docker0网桥，执行ifconfig会看到有如下信息<br>
-***注：其中192.168.5.1可以通过/etc/docker/daemon.json中bip配置项自行指定***
+***k8s网络实则是帮助Docker实现跨主机通信***<br>
+#### docker容器怎么和主机通信
+宿主机安装完docker后，会创建一个docker0网桥，执行ifconfig会看到有如下信息:(其中192.168.5.1可以通过/etc/docker/daemon.json中bip配置项自行指定)
 <pre>
 docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         inet 192.168.5.1  netmask 255.255.255.0  broadcast 192.168.5.255
@@ -61,13 +60,9 @@ vetha0087a6: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX packets 47822  bytes 12945171 (12.3 MiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 </pre>
-在docker0网桥上有一个Veth Pair的虚拟网卡设备，正是通过这个虚拟设备容器可以和docker0通信，然后docker0则可以和主机直接通信<br>
-至于docker0怎么和主机通信，我想应该和iptables技术有关<br>
-<br>
-2. A主机的容器怎么和B主机的容器通信<br>
-两个主机网络是连通的，但是两台主机上的docker0是不互通的，所以我们要通过软件的方式为两台主机构建一个虚拟网络Overlay Network。<br>
-有了这个虚拟网络，两台主机上的容器通信就和单机类似了。<br>
-这就是为什么k8s集群必须安装网络插件的原因，执行ifconfig会看到如下信息
+在docker0网桥上有一个Veth Pair的虚拟网卡设备，正是通过这个虚拟设备容器可以和docker0通信，然后docker0则可以和主机直接通信。至于docker0怎么和主机通信，我想应该和iptables技术有关<br>
+#### A主机的容器怎么和B主机的容器通信
+两个主机网络是连通的，但是两台主机上的docker0是不互通的，所以我们要通过软件的方式为两台主机构建一个虚拟网络Overlay Network。有了这个虚拟网络，两台主机上的容器通信就和单机类似了。这就是为什么k8s集群必须安装网络插件的原因，执行ifconfig会看到如下信息
 <pre>
 flannel.1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
         inet 100.244.0.0  netmask 255.255.255.255  broadcast 0.0.0.0
@@ -78,15 +73,12 @@ flannel.1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
         TX packets 23197  bytes 2119926 (2.0 MiB)
         TX errors 0  dropped 8 overruns 0  carrier 0  collisions 0
 </pre>
-3. 集群外访问集群内服务的几种模式<br>
-- Host模式<br>
-Browser->Nginx->Pod
-- Service模式<br>
-Browser->Nginx->Service->Pod
-- Ingress模式<br>
-Browser->Nginx->Ingress->Service->Pod
+#### 集群外访问集群内服务的几种模式
+- **Host模式:**Browser->Nginx->Pod
+- **Service模式:**Browser->Nginx->Service->Pod
+- **Ingress模式:**Browser->Nginx->Ingress->Service->Pod
 ### k8s日志采集方案
-1. EFK
+#### EFK
 ### k8s监控方案
-2. Prometheus
+#### Prometheus
 
