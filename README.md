@@ -16,25 +16,25 @@
 2. k8s最重要的概念是Pod，Pod是k8s项目的原子调度单位，一个Pod可以包含一个或多个容器应用（通常只放一个）。所以你可以将一个pod看成我们传统的一台虚拟机。
 ### k8s的架构
 1. 全局架构<br>
-- ApiServer: k8s访问入口，所有通过kubectl执行的命令都是调用ApiServer实现的
-- Scheduler: 调度室，决定一个Pod应该运行在哪个Node。（Pod运行的节点一般通过Node的label指定）
-- Controller Manager: 总控室，监控集群状态，管理集群资源。例如：例如某一个应用设置的副本是2，其中一个意外停止，则Controller Manager负责重新创建一个Pod，保证应用副本个数是2。
-- Etcd: key-value的数据库，负责持久化集群中各资源对象的信息
-- kubelet: 主要负责和Docker交互
-- kube-proxy: 负责处理外部请求应该访问到那个pod，nginx的反向代理<br>
+- **ApiServer**: k8s访问入口，所有通过kubectl执行的命令都是调用ApiServer实现的
+- **Scheduler**: 调度室，决定一个Pod应该运行在哪个Node。（Pod运行的节点一般通过Node的label指定）
+- **Controller Manager**: 总控室，监控集群状态，管理集群资源。例如：例如某一个应用设置的副本是2，其中一个意外停止，则Controller Manager负责重新创建一个Pod，保证应用副本个数是2。
+- **Etcd**: key-value的数据库，负责持久化集群中各资源对象的信息
+- **kubelet**: 主要负责和Docker交互
+- **kube-proxy**: 负责处理外部请求应该访问到那个pod，nginx的反向代理<br>
 ![k8s-cluster](https://github.com/lgfei/k8s-learning-notes/raw/master/images/k8s-cluster.png)
 2. 集群对象关系<br>
-- Pod: 一个或多个紧密协作的容器应用组成的逻辑对象，每个Pod会分配一个虚拟的PodIP(主机模式用的是主机IP)，一个Pod内的容器共享Pod的IP和网络配置，用于同外界通信。
-- Replica Set: Pod的子类，简称RC。一个RC可以管理多个Pod。
-- Deployment: RC的子类，可以看成高版本的RC。提供了更丰富管理Pod的功能，例如：健康检查，滚动升级等。
-- Ingress: 需要结合Nginx和Service一起使用，其实可以看成给Nginx一个代理商，只要Ingress更新了，对应的Nginx就能访问Ingress绑定的Service了。
-- Service: 一组Pod的访问入口，并负责pod的负载均衡。一个Service会分配一个Cluster IP，并指定与主机和Pod的通信端口。
-- ConfigMap/Secret: 都属于一种特殊的volume，负责存放一些环境相关的配置，方便多环境配置调整，只是Secret是加密的。
-- DaemonSet: 会在每个或指定范围内的Node都运行一个Pod，且新增节点后会自动部署。例如：网络插件flannel
-- StatefulSet: 有状态的应用。一般用来部署中间件，例如：mysql
-- Job: 一次性任务
-- CronJob: 定时任务
-- Horizontal PodAutoscaler: 水平自动伸缩控制器<br>
+- **Pod**: 一个或多个紧密协作的容器应用组成的逻辑对象，每个Pod会分配一个虚拟的PodIP(主机模式用的是主机IP)，一个Pod内的容器共享Pod的IP和网络配置，用于同外界通信。
+- **Replica Set**: Pod的子类，简称RC。一个RC可以管理多个Pod。
+- **Deployment**: RC的子类，可以看成高版本的RC。提供了更丰富管理Pod的功能，例如：健康检查，滚动升级等。
+- **Ingress**: 需要结合Nginx和Service一起使用，其实可以看成给Nginx一个代理商，只要Ingress更新了，对应的Nginx就能访问Ingress绑定的Service了。
+- **Service**: 一组Pod的访问入口，并负责pod的负载均衡。一个Service会分配一个Cluster IP，并指定与主机和Pod的通信端口。
+- **ConfigMap/Secret**: 都属于一种特殊的volume，负责存放一些环境相关的配置，方便多环境配置调整，只是Secret是加密的。
+- **DaemonSet**: 会在每个或指定范围内的Node都运行一个Pod，且新增节点后会自动部署。例如：网络插件flannel
+- **StatefulSet**: 有状态的应用。一般用来部署中间件，例如：mysql
+- **Job**: 一次性任务
+- **CronJob**: 定时任务
+- **Horizontal PodAutoscaler**: 水平自动伸缩控制器<br>
 ![k8s-pod](https://github.com/lgfei/k8s-learning-notes/raw/master/images/k8s-pod.png)
 ### k8s的网络原理
 k8s网络实则是帮助Docker实现跨主机通信<br>
@@ -78,7 +78,7 @@ flannel.1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
         TX packets 23197  bytes 2119926 (2.0 MiB)
         TX errors 0  dropped 8 overruns 0  carrier 0  collisions 0
 </pre>
-3. 集群外访问集群内服务的过程<br>
+3. 集群外访问集群内服务的几种模式<br>
 - Host模式<br>
 Browser->Nginx->Pod
 - Service模式<br>
