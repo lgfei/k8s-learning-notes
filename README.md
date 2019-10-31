@@ -1,6 +1,7 @@
 # k8s-learning-notes
-## k8s集群部署
-- [kubeadm部署多master高可用集群](https://github.com/lgfei/k8s-learning-notes/blob/master/kubeadm/README.md)
+## 集群部署
+- [kubeadm部署多master高可用k8s集群](https://github.com/lgfei/k8s-learning-notes/blob/master/kubeadm/README.md)
+- [二进制文件部署高可用etcd集群](https://github.com/lgfei/k8s-learning-notes/blob/master/etcd/README.md)
 
 ## 我眼中的k8s
 ### 为什么要容器化
