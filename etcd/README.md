@@ -108,7 +108,7 @@ mkdir -p /opt/etcd/{bin,cfg,ssl}
 mv etcd-v3.3.17-linux-amd64/{etcd,etcdctl} /opt/etcd/bin/
 ```
 
-2. 添加etcd配置文件
+2. 添加etcd配置文件<br>
 ***3台机器ETCD_NAME名字不一样，本机IP不一样***
 ```
 cd /opt/etcd/cfg
