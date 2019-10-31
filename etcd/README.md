@@ -97,8 +97,7 @@ EOF
 cfssl gencert -initca ca-csr.json | cfssljson -bare ca -
 cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=www server-csr.json | cfssljson -bare server
 ```
-## 部署etcd 
-*** 3个节点 都操作 ***<br>
+## 部署etcd (3个节点都操作)
 1. 下载 [下载地址](https://github.com/etcd-io/etcd/releases/tag/v3.3.17)
 ```
 mkdir -p /opt/etcd/src
@@ -108,7 +107,7 @@ mkdir -p /opt/etcd/{bin,cfg,ssl}
 mv etcd-v3.3.17-linux-amd64/{etcd,etcdctl} /opt/etcd/bin/
 ```
 
-2. 添加etcd配置文件 *** 3台机器ETCD_NAME名字不一样，本机IP不一样  ***
+2. 添加etcd配置文件(3台机器ETCD_NAME名字不一样，本机IP不一样)
 ```
 cd /opt/etcd/cfg
 cat > etcd <<EOF
@@ -199,4 +198,4 @@ member d94ba21c17c75ffb is healthy: got healthy result from https://192.168.1.10
 member dc51f874259f7894 is healthy: got healthy result from https://192.168.1.103:2379
 cluster is healthy
 </pre>
-*** 如果有问题第一步先看日志：/var/log/message 或 journalctl -u etcd ***
+***如果有问题第一步先看日志：/var/log/message 或 journalctl -u etcd***
