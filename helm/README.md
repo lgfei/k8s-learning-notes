@@ -1,5 +1,5 @@
 # K8S软件包管理工具Helm安装部署
-Helm是K8S生态系统中的一个软件包管理工具，就相当于Linux的yum和apt工具。简化K8S安装，升级，删除，回滚应用等操作过程。<br>
+Helm是K8S生态系统中的一个软件包管理工具，就相当于Linux的yum和apt工具。简化安装，升级，删除，回滚K8S应用的操作过程。<br>
 Helm2.x版本的安装包括客户端helm和服务端Tiler（本文版本v2.15.0）<br>
 Helm3.x版本则不再需要Tiler
 
