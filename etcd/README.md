@@ -99,7 +99,8 @@ cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=www 
 ```
 ## 部署etcd 
 ***3个节点都操作***
-1. 下载 [下载地址](https://github.com/etcd-io/etcd/releases/tag/v3.3.17)
+1. 下载 
+- [下载地址](https://github.com/etcd-io/etcd/releases/tag/v3.3.17)
 ```
 mkdir -p /opt/etcd/src
 cd /opt/etcd/src
@@ -173,6 +174,7 @@ LimitNOFILE=65536
 WantedBy=multi-user.target
 EOF
 ```
+
 4. 复制证书文件
 ```
 cp /opt/ssl/etcd/ca*pem  /opt/etcd/ssl/
@@ -183,11 +185,13 @@ scp  /opt/ssl/etcd/ca*pem  root@192.168.1.102:/opt/etcd/ssl/
 scp  /opt/ssl/etcd/server*pem  root@192.168.1.103:/opt/etcd/ssl/
 scp  /opt/ssl/etcd/server*pem  root@192.168.1.103:/opt/etcd/ssl/
 ```
+
 5. 启动
 ```
 systemctl enable etcd
 systemctl start etcd
 ```
+
 6. 检查
 ```
 cd /opt/ssl/etcd/
