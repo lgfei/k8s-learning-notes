@@ -1,10 +1,12 @@
 # 二进制方式安装高可用etcd集群
+
 ## 机器准备
 节点名称|IP
 --|:--:|
 etcd01|192.168.1.101
 etcd02|192.168.1.102
 etcd03|192.168.1.103
+
 ## 安装证书生成工具cfssl
 ```
 mkdir -p /opt/cfssl
@@ -20,6 +22,7 @@ mv cfssl_linux-amd64 /usr/local/bin/cfssl
 mv cfssljson_linux-amd64 /usr/local/bin/cfssljson
 mv cfssl-certinfo_linux-amd64 /usr/bin/cfssl-certinfo
 ```
+
 ## 生成key
 - 创建目录
 ```
@@ -97,6 +100,7 @@ EOF
 cfssl gencert -initca ca-csr.json | cfssljson -bare ca -
 cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=www server-csr.json | cfssljson -bare server
 ```
+
 ## 部署etcd 
 ***3个节点都操作***
 1. 下载 

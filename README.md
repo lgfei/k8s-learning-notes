@@ -3,22 +3,27 @@
 - [kubeadm部署多master高可用k8s集群](https://github.com/lgfei/k8s-learning-notes/blob/master/kubeadm/README.md)
 - [二进制文件部署高可用etcd集群](https://github.com/lgfei/k8s-learning-notes/blob/master/etcd/README.md)
 - [私有仓库Harbor部署](https://github.com/lgfei/k8s-learning-notes/blob/master/harbor/README.md)
+- [K8S应用管理工具Helm部署](https://github.com/lgfei/k8s-learning-notes/blob/master/helm/README.md)
 
-## 我眼中的k8s
+## 我眼中的K8S
+
 ### 为什么要容器化
 1. 节省服务器资源
 2. 自动伸缩扩容
 3. 环境一致性
 4. 方便迁移，一次构建到处部署
+
 ### 什么是Docker
 1. Docker并不等于容器，Docker只是基于容器技术的一个产品。相比于其他容器产品，Docker最大的优势和创新是镜像(image)
 2. 通过docker run启动一个容器，是通过Linux Namespace、Linux Cgroups 和 rootfs 三种技术构建出来的进程的隔离环境，实际它只是运行在主机上的一个特殊的进程
-### 什么是k8s，为什么需要k8s
+
+### 什么是K8S，为什么需要K8S
 1. 如果说Docker只是安装应用的另外一种形式，那么k8s就是管理容器应用的操作系统，为Docker化的应用提供路由网关、水平扩展、监控、备份、灾难恢复等一系列运维能力。认识了k8s才能真正走入容器化的世界
 2. k8s最重要的概念是Pod，Pod是k8s项目的原子调度单位，一个Pod可以包含一个或多个容器应用（通常只放一个）。所以你可以将一个pod看成我们传统的一台虚拟机。
-### k8s的架构
+
+### K8S的架构
 1. 全局架构<br>
-- **ApiServer:** k8s访问入口，所有通过kubectl执行的命令都是调用ApiServer实现的
+- **ApiServer:** K8S访问入口，所有通过kubectl执行的命令都是调用ApiServer实现的
 - **Scheduler:** 调度室，决定一个Pod应该运行在哪个Node。（Pod运行的节点一般通过Node的label指定）
 - **Controller Manager:** 总控室，监控集群状态，管理集群资源。例如：例如某一个应用设置的副本是2，其中一个意外停止，则Controller Manager负责重新创建一个Pod，保证应用副本个数是2。
 - **Etcd:** key-value的数据库，负责持久化集群中各资源对象的信息
@@ -38,8 +43,10 @@
 - **CronJob:** 定时任务
 - **Horizontal PodAutoscaler:** 水平自动伸缩控制器<br>
 ![k8s-pod](https://github.com/lgfei/k8s-learning-notes/raw/master/images/k8s-pod.png)
+
 ### k8s的网络原理
 ***k8s网络实则是帮助Docker实现跨主机通信***<br>
+
 #### docker容器怎么和主机通信
 宿主机安装完docker后，会创建一个docker0网桥，执行ifconfig会看到有如下信息:(其中192.168.5.1可以通过/etc/docker/daemon.json中bip配置项自行指定)
 <pre>
@@ -63,6 +70,7 @@ vetha0087a6: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 </pre>
 在docker0网桥上有一个Veth Pair的虚拟网卡设备，正是通过这个虚拟设备容器可以和docker0通信，然后docker0则可以和主机直接通信。至于docker0怎么和主机通信，我想应该和iptables技术有关<br>
+
 #### A主机的容器怎么和B主机的容器通信
 两个主机网络是连通的，但是两台主机上的docker0是不互通的，所以我们要通过软件的方式为两台主机构建一个虚拟网络Overlay Network。有了这个虚拟网络，两台主机上的容器通信就和单机类似了。这就是为什么k8s集群必须安装网络插件的原因，执行ifconfig会看到如下信息
 <pre>
@@ -75,12 +83,20 @@ flannel.1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
         TX packets 23197  bytes 2119926 (2.0 MiB)
         TX errors 0  dropped 8 overruns 0  carrier 0  collisions 0
 </pre>
+
 #### 集群外访问集群内服务的几种模式
 - **Host模式:** Browser->Nginx->Pod
 - **Service模式:** Browser->Nginx->Service->Pod
 - **Ingress模式:** Browser->Nginx->Ingress->Service->Pod
+
 ### k8s日志采集方案
+
 #### EFK
+
 ### k8s监控方案
+
 #### Prometheus
+
+## 参考文献
+- [运维之美](https://www.hi-linux.com/)
 

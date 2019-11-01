@@ -1,5 +1,7 @@
 # 镜像仓库Harbor部署
+存放docker镜像的仓库，也可以存放helm安装包。跟[Docker Hub](https://hub.docker.com)是一样的东西<br>
 机器ip：192.168.2.101
+
 ## Docker Compose安装
 ***通过docker-compose.yml修改端口***<br>
 ```
@@ -18,6 +20,7 @@ vim /etc/docker/daemon.json
 }
 systemctl restart docker
 ```
+
 ## 下载Harbor 
 - [下载地址](https://github.com/vmware/harbor/releases)<br>
 建议下载offline的压缩包，里面包含了harbor启动所用的所有docker镜像，可以快速的部署harbor<br>
@@ -27,6 +30,7 @@ cd /opt/harbor/src
 wget https://storage.googleapis.com/harbor-releases/release-1.8.0/harbor-offline-installer-v1.8.1.tgz
 tar zxf harbor-offline-installer-v1.8.1.tgz
 ```
+
 ## 安装Harbor
 ***通过harbor.yml修改hostname***<br>
 ```
@@ -34,6 +38,7 @@ cd /usr/local/src/harbor/
 ./install.sh
 docker-compose ps
 ```
+
 ## 使用
 <pre>
 使用Harbor管理Registry 
@@ -44,5 +49,6 @@ web登录：http://192.168.10.1  默认用户名密码  admin/Harbor12345
 docker tag centos:latest 192.168.10.1/system/centos:latest
 docker push 192.168.10.1/system/centos:latest
 </pre>
+
 ## 参考文献
 - [m.unixhot.com](http://m.unixhot.com/docker/registry.html)
