@@ -1,7 +1,8 @@
 # k8s-learning-notes
-## 集群部署
+## 集群环境部署
 - [kubeadm部署多master高可用k8s集群](https://github.com/lgfei/k8s-learning-notes/blob/master/kubeadm/README.md)
 - [二进制文件部署高可用etcd集群](https://github.com/lgfei/k8s-learning-notes/blob/master/etcd/README.md)
+- [私有仓库Harbor部署](https://github.com/lgfei/k8s-learning-notes/blob/master/harbor/README.md)
 
 ## 我眼中的k8s
 ### 为什么要容器化

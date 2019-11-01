@@ -18,7 +18,8 @@ vim /etc/docker/daemon.json
 }
 systemctl restart docker
 ```
-## 下载Harbor [下载地址](https://github.com/vmware/harbor/releases)
+## 下载Harbor 
+- [下载地址](https://github.com/vmware/harbor/releases)<br>
 建议下载offline的压缩包，里面包含了harbor启动所用的所有docker镜像，可以快速的部署harbor<br>
 ```
 mkdir -p /opt/harbor/src
