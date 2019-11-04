@@ -38,7 +38,7 @@
 - **Service:** 一组Pod的访问入口，并负责pod的负载均衡。一个Service会分配一个Cluster IP，并指定与主机和Pod的通信端口。
 - **ConfigMap/Secret:** 都属于一种特殊的volume，负责存放一些环境相关的配置，方便多环境配置调整，只是Secret是加密的。
 - **DaemonSet:** 会在每个或指定范围内的Node都运行一个Pod，且新增节点后会自动部署。例如：网络插件flannel
-- **StatefulSet:** 有状态的应用。一般用来部署中间件，例如：mysql
+- **StatefulSet:** 有状态的应用。一般用来部署中间件，例如：redis，elasticsearch
 - **Job:** 一次性任务
 - **CronJob:** 定时任务
 - **Horizontal PodAutoscaler:** 水平自动伸缩控制器<br>
