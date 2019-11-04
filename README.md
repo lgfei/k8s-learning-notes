@@ -34,7 +34,7 @@
 - **Pod:** 一个或多个紧密协作的容器应用组成的逻辑对象，每个Pod会分配一个虚拟的PodIP(主机模式用的是主机IP)，一个Pod内的容器共享Pod的IP和网络配置，用于同外界通信。
 - **Replica Set:** Pod的子类，简称RC。一个RC可以管理多个Pod。
 - **Deployment:** RC的子类，可以看成高版本的RC。提供了更丰富管理Pod的功能，例如：健康检查，滚动升级等。
-- **Ingress:** 需要结合Nginx和Service一起使用，其实可以看成给Nginx一个代理商，只要Ingress更新了，对应的Nginx就能访问Ingress绑定的Service了。
+- **Ingress:** 需要结合Ingress Controller和Service一起使用，可以看成Nginx的另一种形式，只要Ingress更新了，对应的访问入口就更新了，相当于Nginx自动更新了。
 - **Service:** 一组Pod的访问入口，并负责pod的负载均衡。一个Service会分配一个Cluster IP，并指定与主机和Pod的通信端口。
 - **ConfigMap/Secret:** 都属于一种特殊的volume，负责存放一些环境相关的配置，方便多环境配置调整，只是Secret是加密的。
 - **DaemonSet:** 会在每个或指定范围内的Node都运行一个Pod，且新增节点后会自动部署。例如：网络插件flannel
@@ -87,7 +87,7 @@ flannel.1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
 #### 集群外访问集群内服务的几种模式
 - **Host模式:** Browser->Nginx->Pod
 - **Service模式:** Browser->Nginx->Service->Pod
-- **Ingress模式:** Browser->Nginx->Ingress->Service->Pod
+- **Ingress模式:** Browser->Ingress->Service->Pod
 
 ### k8s日志采集方案
 
