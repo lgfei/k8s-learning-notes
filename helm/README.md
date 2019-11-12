@@ -12,6 +12,11 @@ tar -zxvf helm-v2.15.0-linux-amd64.tar.gz
 cp linux-amd64/helm /usr/local/bin/
 ```
 
+## 安装 Helm push 插件
+```
+helm plugin install https://github.com/chartmuseum/helm-push
+```
+
 ## 安装 Helm 服务器端 Tiller
 1. Tiller 是以 Deployment 方式部署在 Kubernetes 集群中，使用阿里云镜像安装并把默认仓库设置为阿里云上的镜像仓库。<br>
 ```
@@ -45,3 +50,4 @@ helm reset
 
 ## 参考文献
 - [Helm入门指南](https://www.hi-linux.com/posts/21466.html)
+- [helm-push](https://github.com/chartmuseum/helm-push)
