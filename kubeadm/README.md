@@ -84,7 +84,7 @@ lsmod | grep -e ip_vs -e nf_conntrack_ipv4
 ```
 yum install -y ipvsadm
 ipvsadm-save -n > /etc/sysconfig/ipvsadm
-systemctl enble ipvsadm
+systemctl enable ipvsadm
 systemctl start ipvsadm
 ```
 
