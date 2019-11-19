@@ -67,6 +67,7 @@ EOF
 sysctl --system
 ```
 7. 加载ipvs模块
+ipvs比iptables性能好
 ```
 cat > /etc/sysconfig/modules/ipvs.modules <<EOF
 #!/bin/bash
@@ -213,6 +214,15 @@ yum -y install docker-ce-18.06.1.ce-3.el7
 ```
 systemctl enable docker && systemctl start docker
 docker version
+```
+4. 常用操作
+```
+# 删除所有没有启用的镜像
+docker system prune --volumes -a -f
+# 删除所有none标签的镜像
+docker rmi $(docker images | grep none | awk '{print $3}')
+# 删除已退出的所有容器
+docker rm `docker ps -a | grep Exited | awk '{print $1}'`
 ```
 
 ## 部署kubernetes

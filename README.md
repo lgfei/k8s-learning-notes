@@ -14,8 +14,8 @@
 4. 方便迁移，一次构建到处部署
 
 ### 什么是Docker
-1. Docker并不等于容器，Docker只是基于容器技术的一个产品。相比于其他容器产品，Docker最大的优势和创新是镜像(image)
-2. 通过docker run启动一个容器，是通过Linux Namespace、Linux Cgroups 和 rootfs 三种技术构建出来的进程的隔离环境，实际它只是运行在主机上的一个特殊的进程
+1. Docker并不等于容器，Docker只是基于容器技术的一个产品。相比于其他容器产品，Docker最大的优势和创新是镜像(image)。
+2. 通过docker run启动一个容器，是通过Linux Namespace、Linux Cgroups 和 rootfs 三种技术构建出来的进程的隔离环境，实际它只是运行在主机上的一个特殊的进程。
 
 ### 什么是K8S，为什么需要K8S
 1. 如果说Docker只是安装应用的另外一种形式，那么k8s就是管理容器应用的操作系统，为Docker化的应用提供路由网关、水平扩展、监控、备份、灾难恢复等一系列运维能力。认识了k8s才能真正走入容器化的世界
@@ -23,17 +23,18 @@
 
 ### K8S的架构
 1. 全局架构<br>
-- **ApiServer:** K8S访问入口，所有通过kubectl执行的命令都是调用ApiServer实现的
-- **Scheduler:** 调度室，决定一个Pod应该运行在哪个Node。（Pod运行的节点一般通过Node的label指定）
+- **ApiServer:** K8S访问入口，所有通过kubectl执行的命令都是调用ApiServer实现的，提供认证、授权、访问控制、API 注册和发现等机制。
+- **Scheduler:** 调度室，决定一个Pod应该运行在哪个Node。（Pod运行的节点一般通过Node的label指定）。
 - **Controller Manager:** 总控室，监控集群状态，管理集群资源。例如：例如某一个应用设置的副本是2，其中一个意外停止，则Controller Manager负责重新创建一个Pod，保证应用副本个数是2。
-- **Etcd:** key-value的数据库，负责持久化集群中各资源对象的信息
-- **kubelet:** 主要负责和Docker交互
-- **kube-proxy:** 负责处理外部请求应该访问到那个pod，nginx的反向代理<br>
+- **Etcd:** key-value的数据库，负责持久化集群中各资源对象的信息。
+- **kubelet:** 主要负责和Docker交互。
+- **kube-proxy:** 负责为Service提供cluster内部的服务发现和负载均衡，处理外部请求应该访问到那个pod。<br>
 ![k8s-cluster](https://github.com/lgfei/k8s-learning-notes/raw/master/images/k8s-cluster.png)
 2. 集群对象关系<br>
 - **Pod:** 一个或多个紧密协作的容器应用组成的逻辑对象，每个Pod会分配一个虚拟的PodIP(主机模式用的是主机IP)，一个Pod内的容器共享Pod的IP和网络配置，用于同外界通信。
-- **Replica Set:** Pod的子类，简称RC。一个RC可以管理多个Pod。
-- **Deployment:** RC的子类，可以看成高版本的RC。提供了更丰富管理Pod的功能，例如：健康检查，滚动升级等。
+- **Replication Controller:** Pod的子类，简称RC。一个RC可以管理多个Pod。
+- **Replica Set:** RS是新一代 RC。
+- **Deployment:** 管理RS的对象，提供了更丰富管理Pod的功能，例如：健康检查，滚动升级等。
 - **Ingress:** 需要结合Ingress Controller和Service一起使用，可以看成Nginx的另一种形式，只要Ingress更新了，对应的访问入口就更新了，相当于Nginx自动更新了。
 - **Service:** 一组Pod的访问入口，并负责pod的负载均衡。一个Service会分配一个Cluster IP，并指定与主机和Pod的通信端口。
 - **ConfigMap/Secret:** 都属于一种特殊的volume，负责存放一些环境相关的配置，方便多环境配置调整，只是Secret是加密的。
