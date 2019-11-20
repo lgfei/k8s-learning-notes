@@ -216,15 +216,15 @@ systemctl enable docker && systemctl start docker
 docker version
 ```
 4. 常用操作
-- 删除所有没有启用的镜像
+删除所有没有启用的镜像
 ```
 docker system prune --volumes -a -f
 ```
-- 删除所有none标签的镜像
+删除所有none标签的镜像
 ```
 docker rmi $(docker images | grep none | awk '{print $3}')
 ```
-- 删除已退出的所有容器
+删除已退出的所有容器
 ```
 docker rm `docker ps -a | grep Exited | awk '{print $1}'`
 ```
@@ -385,7 +385,7 @@ cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 7. 添加master节点
-- 将master-01的k8s证书复制到master-02，master-03
+将master-01的k8s证书复制到master-02，master-03
 ```
 USER=root
 CONTROL_PLANE_IPS="master-02 master-03"
@@ -398,7 +398,7 @@ for host in ${CONTROL_PLANE_IPS}; do
     scp /etc/kubernetes/admin.conf "${USER}"@$host:/etc/kubernetes/
 done
 ```
-- 加入集群
+加入集群
 ```
 kubeadm join 192.168.1.200:8443 --token jtkhrx.w9w6u0s8stpaianz \
   --discovery-token-ca-cert-hash sha256:11902c4de08e89cd7d2da1d7543e086720061ce48acf5ce48fec1f825c8aef44 \
@@ -449,6 +449,10 @@ kubeadm token create
 ```
 openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
 ```
+也可以直接用下面明细生成新的join命令
+```
+kubeadm token create <新的token> --print-join-command --ttl=0
+```
 11. 部署flannel或者calico<br>
 ***注: 部署任何组件，一定不要直接用网上下载的yaml文件部署，类似于*** 
 ```
@@ -457,8 +461,8 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documen
 ***一定要下载下来仔细对比，修改相应配置项***<br>  
 从上一步看到节点的状态是NotReady，是因为还没部署网络插件<br>
 kube-flannel.yml文件内容：[kube-flannel.yml](https://github.com/lgfei/k8s-learning-notes/blob/master/kubeadm/kube-flannel.yml)<br>
-需要修改的地方
-- net-conf.json
+需要修改的地方<br>
+net-conf.json
 ```
   net-conf.json: |
     {
@@ -470,14 +474,14 @@ kube-flannel.yml文件内容：[kube-flannel.yml](https://github.com/lgfei/k8s-l
 ```
 flannel插件部署成功后，所有节点的状态会依次变成Ready<br>
 12. kubectl常用命令
-- 标签管理
+标签管理
 ```
 kubectl label nodes node-01 node-role.kubernetes.io/node=            // 标记为node节点
 kubectl label nodes node-01 k8s.lgfei.com/namespace=dev              // 添加标签
 kubectl label nodes node-01 k8s.lgfei.com/namespace=prd --overwrite  // 修改标签
 kubectl label nodes node-01 k8s.lgfei.com/namespace-                 // 删除标签
 ```
-- 组件管理
+组件管理
 ```
 kubectl get cs
 kubectl get nodes --show-labels
