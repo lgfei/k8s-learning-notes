@@ -441,7 +441,7 @@ node-01     NotReady    node     2d17h   v1.15.3
 </pre>
 10. 重新生成token<br>
 当出现error execution phase preflight: couldn't validate the identity of the API Server: abort connecting to API servers after timeout of 5m0s时，<br>
-表示token失效，可以通过下面的命名重新生成token
+表示token失效（集群注册token的有效时间为24小时），可以通过下面的命名重新生成token
 ```
 kubeadm token create
 ```
