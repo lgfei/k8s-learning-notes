@@ -87,7 +87,7 @@ flannel.1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1450
 
 #### 集群外访问集群内服务的几种模式
 - **Host模式:** Browser->Nginx->Pod
-- **Service模式:** Browser->Nginx->Service->Pod
+- **NodePort模式:** Browser->Nginx->Service->Pod
 - **Ingress模式:** Browser->Ingress->Service->Pod
 
 ### k8s日志采集方案
