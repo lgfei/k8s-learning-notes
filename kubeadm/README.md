@@ -437,7 +437,17 @@ node-01     NotReady    node     2d5h    v1.15.3
 node-01     NotReady    node     2d17h   v1.15.3
 node-01     NotReady    node     2d17h   v1.15.3
 </pre>
-10. 部署flannel或者calico<br>
+10. 重新生成token<br>
+当出现error execution phase preflight: couldn't validate the identity of the API Server: abort connecting to API servers after timeout of 5m0s时，<br>
+表示token失效，可以通过下面的命名重新生成token
+```
+kubeadm token create
+```
+如果忘记了sha256，可以通过如下命令查看
+```
+openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
+```
+11. 部署flannel或者calico<br>
 ***注: 部署任何组件，一定不要直接用网上下载的yaml文件部署，类似于*** 
 ```
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
@@ -457,7 +467,7 @@ kube-flannel.yml文件内容：[kube-flannel.yml](https://github.com/lgfei/k8s-l
     }
 ```
 flannel插件部署成功后，所有节点的状态会依次变成Ready<br>
-11. kubectl常用命令
+12. kubectl常用命令
 - 标签管理
 ```
 kubectl label nodes node-01 node-role.kubernetes.io/node=            // 标记为node节点
