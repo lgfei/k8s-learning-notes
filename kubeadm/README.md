@@ -527,3 +527,11 @@ ip link delete tunl0
 rm -rf /var/lib/cni/
 rm -f /etc/cni/net.d/*
 ```
+4. 如果你要升级kubelet而发现kubelet版本一直是旧版本的时候，则需要手动删除kubelet
+```
+whereis kubelet
+```
+会出现如下信息，手动删除文件，再重新安装
+<pre>
+kubelet: /usr/bin/kubelet /root/local/bin/kubelet
+</pre>
