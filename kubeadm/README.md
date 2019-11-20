@@ -427,7 +427,9 @@ scheduler            Healthy   ok
 controller-manager   Healthy   ok                  
 etcd-0               Healthy   {"health":"true"} 
 </pre>
-`kubectl get nodes`
+```
+kubectl get nodes
+```
 <pre>
 NAME        STATUS      ROLES    AGE     VERSION
 master-01   NotReady    master   2d18h   v1.15.3
