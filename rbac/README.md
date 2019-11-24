@@ -129,6 +129,8 @@ rules:
   resources: ["pods","pods/log","configmaps","services"]
   verbs: ["get", "list","logs","describe"]
 EOF
+
+kubectl apply -f k8sloger-role.yaml
 ```
 2. 绑定角色
 ```
@@ -147,7 +149,10 @@ roleRef:
   name: k8sloger-role
   apiGroup: rbac.authorization.k8s.io
 EOF
+
+kubectl apply -f k8sloger-role-binding.yaml
 ```
+
 ## 验证
 1. 用k8sloger.kubeconfig替换现有的config
 ```

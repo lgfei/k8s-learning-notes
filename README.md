@@ -1,9 +1,10 @@
 # k8s-learning-notes
 ## 集群环境部署
-- [kubeadm部署多master高可用k8s集群](https://github.com/lgfei/k8s-learning-notes/blob/master/kubeadm/README.md)
-- [二进制文件部署高可用etcd集群](https://github.com/lgfei/k8s-learning-notes/blob/master/etcd/README.md)
-- [私有仓库Harbor部署](https://github.com/lgfei/k8s-learning-notes/blob/master/harbor/README.md)
-- [K8S应用管理工具Helm部署](https://github.com/lgfei/k8s-learning-notes/blob/master/helm/README.md)
+- [kubeadm部署多master高可用k8s集群](https://github.com/lgfei/k8s-learning-notes/blob/master/kubeadm)
+- [二进制文件部署高可用etcd集群](https://github.com/lgfei/k8s-learning-notes/blob/master/etcd)
+- [私有仓库Harbor部署](https://github.com/lgfei/k8s-learning-notes/blob/master/harbor)
+- [K8S应用管理工具Helm部署](https://github.com/lgfei/k8s-learning-notes/blob/master/helm)
+- [K8S集群RBAC权限控制](https://github.com/lgfei/k8s-learning-notes/tree/master/rbac)
 
 ## 我眼中的K8S
 
