@@ -449,9 +449,13 @@ kubeadm token create
 ```
 openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
 ```
-也可以直接用下面的命令生成新的join命令
+生成token后可以用下面的命令组装出新的join命令
 ```
 kubeadm token create <新的token> --print-join-command --ttl=0
+```
+也可以直接一步到位，用下面的命令生成新的join命令
+```
+kubeadm token create --print-join-command
 ```
 11. 部署flannel或者calico<br>
 ***注: 部署任何组件，一定不要直接用网上下载的yaml文件部署，类似于*** 
