@@ -34,7 +34,7 @@ tar zxf harbor-offline-installer-v1.8.1.tgz
 ## 安装Harbor
 ***通过harbor.yml修改hostname***<br>
 ```
-cd /usr/local/src/harbor/
+cd /opt/harbor/src
 ./install.sh
 docker-compose ps
 ```
@@ -42,12 +42,12 @@ docker-compose ps
 ## 使用
 <pre>
 使用Harbor管理Registry 
-web登录：http://192.168.10.1  默认用户名密码  admin/Harbor12345
-后台登录：docker login http://192.168.10.1
+web登录：http://192.168.2.101  默认用户名密码  admin/Harbor12345
+后台登录：docker loginhttp://192.168.2.101
 
 提交镜像到Registry
-docker tag centos:latest 192.168.10.1/system/centos:latest
-docker push 192.168.10.1/system/centos:latest
+docker tag centos:latest 192.168.2.101/system/centos:latest
+docker push 192.168.2.101/system/centos:latest
 </pre>
 
 ## 参考文献
