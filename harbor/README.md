@@ -50,5 +50,14 @@ docker tag centos:latest 192.168.2.101/system/centos:latest
 docker push 192.168.2.101/system/centos:latest
 </pre>
 
+## 重置&重启
+```
+# 重置
+docker-compose down
+./prepare
+# 重启
+docker-compose up –d
+```
+
 ## 参考文献
 - [m.unixhot.com](http://m.unixhot.com/docker/registry.html)
