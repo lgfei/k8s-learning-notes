@@ -35,7 +35,8 @@ tar zxf harbor-offline-installer-v1.8.1.tgz
 ***通过harbor.yml修改hostname***<br>
 ```
 cd /opt/harbor/src
-./install.sh # 如果要支持上传helm Chart 则执行 ./install.sh   --with-clair --with-chartmuseum
+#如果要支持上传helm Chart 则执行 ./install.sh   --with-clair --with-chartmuseum
+./install.sh
 docker-compose ps
 ```
 
