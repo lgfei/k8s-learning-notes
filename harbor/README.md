@@ -2,8 +2,8 @@
 存放docker镜像的仓库，也可以存放helm安装包。跟[Docker Hub](https://hub.docker.com)是一样的东西
 
 # 环境准备
-机器ip：192.168.2.101
-预先安装docker
+机器ip：192.168.2.101<br/>
+预先安装docker，安装过程略
 ```
 docker version
 ```
