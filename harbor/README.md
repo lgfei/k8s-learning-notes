@@ -1,6 +1,12 @@
 # 镜像仓库Harbor部署
-存放docker镜像的仓库，也可以存放helm安装包。跟[Docker Hub](https://hub.docker.com)是一样的东西<br>
+存放docker镜像的仓库，也可以存放helm安装包。跟[Docker Hub](https://hub.docker.com)是一样的东西
+
+# 环境准备
 机器ip：192.168.2.101
+预先安装docker
+```
+docker version
+```
 
 ## Docker Compose安装
 ***通过docker-compose.yml修改端口***<br>
@@ -43,7 +49,6 @@ cd /opt/harbor/1.8.0
 docker-compose ps
 ```
 
-
 ## 使用
 <pre>
 使用Harbor管理Registry 
@@ -54,7 +59,6 @@ web登录：http://192.168.2.101  默认用户名密码  admin/Harbor12345
 docker tag centos:latest 192.168.2.101/system/centos:latest
 docker push 192.168.2.101/system/centos:latest
 </pre>
-
 
 ## 重置&重启
 ```
