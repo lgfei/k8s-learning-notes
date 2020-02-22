@@ -35,9 +35,10 @@ tar zxf harbor-offline-installer-v1.8.1.tgz
 ***通过harbor.yml修改hostname***<br>
 ```
 cd /opt/harbor/src
-./install.sh
+./install.sh # 如果要支持上传helm Chart 则执行 ./install.sh   --with-clair --with-chartmuseum
 docker-compose ps
 ```
+
 
 ## 使用
 <pre>
@@ -52,11 +53,17 @@ docker push 192.168.2.101/system/centos:latest
 
 ## 重置&重启
 ```
-# 重置
+# 停止
+cd /opt/harbor/src
 docker-compose down
+# 修改harbor.yml重新生成配置
 ./prepare
 # 重启
 docker-compose up –d
+# 推倒重来
+docker-compose down
+rm -rf database registry
+./install.sh
 ```
 
 ## 参考文献
