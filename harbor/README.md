@@ -28,13 +28,16 @@ systemctl restart docker
 mkdir -p /opt/harbor/src
 cd /opt/harbor/src
 wget https://storage.googleapis.com/harbor-releases/release-1.8.0/harbor-offline-installer-v1.8.1.tgz
+mkdir -p /opt/harbor/1.8.0
+cp harbor-offline-installer-v1.8.1.tgz /opt/harbor/1.8.0
+cd /opt/harbor/1.8.0
 tar zxf harbor-offline-installer-v1.8.1.tgz
 ```
 
 ## 安装Harbor
 ***通过harbor.yml修改hostname***<br>
 ```
-cd /opt/harbor/src
+cd /opt/harbor/1.8.0
 #如果要支持上传helm Chart 则执行 ./install.sh   --with-clair --with-chartmuseum
 ./install.sh
 docker-compose ps
@@ -52,10 +55,11 @@ docker tag centos:latest 192.168.2.101/system/centos:latest
 docker push 192.168.2.101/system/centos:latest
 </pre>
 
+
 ## 重置&重启
 ```
 # 停止
-cd /opt/harbor/src
+cd /opt/harbor/1.8.0
 docker-compose down
 # 修改harbor.yml重新生成配置
 ./prepare
